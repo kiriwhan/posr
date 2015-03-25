@@ -3,9 +3,9 @@
 
 library(shiny)
 #library(gdata)
-library(jpeg)
+#library(jpeg)
 library(ggplot2)
-library(gridExtra)
+#library(gridExtra)
 
 # plantDisp <- read.csv("../plantDatabaseV1/posrexel_V2.csv", sep=",", header=TRUE, fill=TRUE, stringsAsFactors=FALSE, strip.white=TRUE)
 # save(plantDisp, file="posr_databaseInfo.RData")
