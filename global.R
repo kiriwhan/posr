@@ -2,7 +2,7 @@
 # shinyapps::deployApp('/Users/kiriwhan/shiny/posr')
 
 library(shiny)
-library(gdata)
+#library(gdata)
 library(jpeg)
 library(ggplot2)
 library(gridExtra)
