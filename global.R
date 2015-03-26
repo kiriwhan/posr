@@ -25,12 +25,19 @@ Fruit.Type.Generic <- c("b", "c", "d", "e", "f", "g", "h", "i", "j", "m", "n", "
 
 ## vector of which plants are in which folder
 # whichFold <- apply(as.matrix(plantDisp$Ncode), 1, function(a) {
-#     tmp <- apply(as.matrix(1:5), 1, function(a2) length(list.files(paste("../plantDatabaseV1/snpres/tcmimages", a2, sep=""), 
-#                                                                    pattern=a)))
-#     return(ifelse(any(tmp != 0), which(tmp == 1), NA))
+#     tmp <- apply(as.matrix(1:5), 1, function(a2) list.files(paste("../plantDatabaseV1/snpres/tcmimages", a2, sep=""), 
+#                                                                    pattern=paste(a, "\\.[[:alnum:]]", sep="")))
+#     if(any(unlist(lapply(tmp, function(l) length(l))) != 0)){
+#       tmp2 <- which(unlist(lapply(tmp, function(l) length(l))) == 1)
+#     return(paste(paste("http://www.presoz.com.au/shiny/snpres/tcmimages", tmp2, sep=""), 
+#           tmp[tmp2], sep="/"))
+#     } else {
+#       return(NA)
+#     }
 #   })
 # save(whichFold, file="posr_whichFold.RData")
 load(file="posr_whichFold.RData")
+
 
 
 ## have all pics loaded and saved as .RData

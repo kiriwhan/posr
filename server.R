@@ -29,10 +29,12 @@ shinyServer(function(input, output, session) {
     if(input$searchLN == "NA") {  
       LNs <-  1:length(plantInfo$PlantType) 
     } else { LNs <- grep(input$searchLN, plantDisp$Latin.Name, ignore.case=TRUE)}
-    
-    
-    
-    fnames <- plantDisp[intersect(intersect(intersect(xs, ys), zs), LNs), ]$Ncode #
+
+    if(input$searchCN == "NA") {  
+      CNs <-  1:length(plantInfo$PlantType) 
+    } else { CNs <- grep(input$searchCN, plantDisp$Common.Name, ignore.case=TRUE)}
+     
+    fnames <- plantDisp[intersect(intersect(intersect(intersect(xs, ys), zs), LNs), CNs), ]$Ncode #
     return(list(plotlength=length(fnames), nams=fnames))
     })
   
@@ -43,6 +45,20 @@ shinyServer(function(input, output, session) {
                                                          unlist(plotInput()$nams)),]$Latin.Name))))
     })
   
+
+output$IMG = renderUI({
+  if(input$LatinNameMatches != "Select"){
+    images <- whichFold[grep(plantDisp[which(plantDisp$Latin.Name == input$LatinNameMatches),1], whichFold)]
+    if(length(images) == 1 && !is.na(images)){
+    tags$img(src=images)
+  } 
+  } else {
+    images <- "selectaplant.png"
+    tags$img(src=images, height=200, width=200)
+  }
+})
+
+
   output$ncode = renderText({ 
     chosenPlantNumber <- which(plantDisp$Latin.Name == input$LatinNameMatches)
     if(length(chosenPlantNumber) == 1){
@@ -86,31 +102,7 @@ shinyServer(function(input, output, session) {
       "Select a plant"
     }
   })
-  
 
-output$IMG = renderImage({
-  chosenPlantNumber <- which(plantDisp$Latin.Name == input$LatinNameMatches)
-  if(length(chosenPlantNumber) == 1){
-    list(src =  paste(paste("http://www.presoz.com.au/shiny/snpres/tcmimages",whichFold[chosenPlantNumber], sep=""), 
-                     paste(as.character(plantDisp[chosenPlantNumber,]$Ncode), ".JPG", sep=""), sep="/"),  
-         width = 200,  height = 200, deleteFile=FALSE)
-  } else {
-    list(src = list.files("./www/", pattern="selectaplant", full.names=TRUE), 
-         width = 200,  height = 200, deleteFile=FALSE)    
-  }
-}, deleteFile=FALSE)
-
-
-#   output$IMG = renderImage({
-#     chosenPlantNumber <- which(plantDisp$Latin.Name == input$LatinNameMatches)
-#     if(length(chosenPlantNumber) == 1){
-#       list(src = list.files("./www/", pattern=as.character(plantDisp[chosenPlantNumber,]$Ncode), full.names=TRUE),  
-#            width = 200,  height = 200, deleteFile=FALSE)
-#     } else {
-#       list(src = list.files("./www/", pattern="selectaplant", full.names=TRUE), 
-#            width = 200,  height = 200)    
-#     }
-#   }, deleteFile=FALSE)
   
   output$habit = renderText({ 
     chosenPlantNumber <- which(plantDisp$Latin.Name == input$LatinNameMatches)
@@ -172,7 +164,7 @@ output$IMG = renderImage({
         updateTabsetPanel(session, inputId="conditionedPanels", selected="Select Plant Features")
       }      
       else if (input$LatinNameMatches != "Select") {    
-        updateTabsetPanel(session, inputId="conditionedPanels", selected="Plant Matches")
+        updateTabsetPanel(session, inputId="conditionedPanels", selected="Selected Plant")
       }
     } 
     })
