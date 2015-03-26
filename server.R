@@ -51,10 +51,13 @@ output$IMG = renderUI({
     images <- whichFold[grep(plantDisp[which(plantDisp$Latin.Name == input$LatinNameMatches),1], whichFold)]
     if(length(images) == 1 && !is.na(images)){
     tags$img(src=images)
-  } 
+  } else {
+    images <- "nopicavail.png"
+    tags$img(src=images, height=100, width=300)
+  }
   } else {
     images <- "selectaplant.png"
-    tags$img(src=images, height=200, width=200)
+    tags$img(src=images, height=100, width=300)
   }
 })
 
@@ -64,7 +67,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       paste("Database code:", as.character(plantDisp[chosenPlantNumber,]$Ncode))
     } else {
-      "Select a plant"
+      "Database code:"
     }
   })
   
@@ -81,7 +84,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Family.name)
     } else {
-      "Select a plant"
+      " "
     }
     })
   
@@ -90,7 +93,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Common.Names)
     } else {
-      "Select a plant"
+      " "
     }
   })
   
@@ -99,7 +102,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Synonyms.)
     } else {
-      "Select a plant"
+      " "
     }
   })
 
@@ -109,7 +112,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Habit.)
     } else {
-      "Select a plant"
+      " "
     }
   })
   
@@ -118,7 +121,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Foliage)
     } else {
-      "Select a plant"
+      " "
     }
   })
   
@@ -127,7 +130,7 @@ output$IMG = renderUI({
   if(length(chosenPlantNumber) == 1){
     as.character(plantDisp[chosenPlantNumber,]$Flowers)
   } else {
-    "Select a plant"
+    " "
   }
   }) 
 
@@ -136,7 +139,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Fruit)
     } else {
-      "Select a plant"
+      " "
     }
   }) 
   
@@ -145,7 +148,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Origin)
     } else {
-      "Select a plant"
+      " "
     }
   }) 
   output$habitat = renderText({ 
@@ -153,7 +156,7 @@ output$IMG = renderUI({
     if(length(chosenPlantNumber) == 1){
       as.character(plantDisp[chosenPlantNumber,]$Habitat)
   } else {
-    "Select a plant"
+    " "
   }
   }) 
 

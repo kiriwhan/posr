@@ -7,27 +7,34 @@ shinyUI(fluidPage(
   tags$style(type="text/css", "h1 { color: forestgreen; }"),
   headerPanel(tags$em("Plants of the Shoalhaven Region")),
   sidebarPanel(
-    p(tags$strong("Click on the 'About' tab for more information on this database")),
+    p(tags$em(tags$strong("Click on the 'About' tab for more information"))),
+    br(),  br(), 
+    p(tags$strong("Instructions")),
     p("1) Make selections on the 'Select Plant Features' tab"),
     p("2) Choose from the selection of possible plant matches in the drop down box"),
     uiOutput('nams'),
     p("3) Click below or on the 'Selected Plant' tab to see the plant"),
     actionButton("goButton", "Click to see plant"),
-    br(), br(), br(), br(), br(), br(), br(), br(), br(), br(), 
-    img(src = "presozLogo.gif",  height = 100, width = 250)
+    p("4) Scroll down for more information"),
+    br(), br(), br(), 
+    img(src = "presozLogo.png",  height = 50, width = 150)
+    
     ),
   
   mainPanel(tabsetPanel(id = "conditionedPanels",
                         tabPanel(title = "Select Plant Features",
                                  column(12, wellPanel( textInput(inputId = 'searchLN', label = 'Search by Latin Name', "NA"))),
                                  column(12, wellPanel( textInput(inputId = 'searchCN', label = 'Search by Common Name', "NA"))),
-                                 column(4, wellPanel(selectInput(inputId = 'x', label = 'Search by Plant Type',
-                                                                 choices = c("Not sure", as.character(Plant.Type.Generic))))),
+                                 column(4, wellPanel(selectInput(inputId = 'x', label = 'Search by Plant Type',selected="tree",
+                                                                 choices = c(as.character(Plant.Type.Generic))))),
                                  column(4, wellPanel(selectInput(inputId = 'y', label = 'Search by Fruit Type', 
                                                                  choices =  c("Not sure", Fruit.Type.Generic)))),
                                  column(4, wellPanel( selectInput(inputId = 'z', label = 'Search by Flower Months', 
                                                                   choices =  c("Not sure", month.abb)))),
-                                  img(src = "introPict.jpg",  height = 200, width = 600)
+                                 column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center")),
+                                 column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center")),
+                                 column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center"))
+                                 
                                  ),
                         tabPanel(title = "Selected Plant",
                                  column(6, h3(uiOutput('Latin.Name')), 
