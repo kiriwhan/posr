@@ -43,6 +43,22 @@ shinyServer(function(input, output, session) {
     })
   
   
+  
+  output$nams = renderUI({
+    selectInput('LatinNameMatches', "Your matches:",  choices=c("Select", sort(as.character(plantDisp[which(plantDisp$Ncode %in% 
+                                                         unlist(plotInput()$nams)),]$Latin.Name))))
+    })
+
+output$namsNumb = renderText({ 
+    paste0(length(plantDisp[which(plantDisp$Ncode %in% unlist(plotInput()$nams)),]$Latin.Name), 
+           " possible plant matches")
+})
+
+output$namsNumb2 = renderText({ 
+  "(the first 1000 matches are available in the drop down menu)"
+})
+
+
 ## swapping tabs
 observe({
   if (input$goButton){    
@@ -54,20 +70,8 @@ observe({
     }
   } 
 })
-  
-  output$nams = renderUI({
-    selectInput('LatinNameMatches', "Your matches:",  choices=c("Select", sort(as.character(plantDisp[which(plantDisp$Ncode %in% 
-                                                         unlist(plotInput()$nams)),]$Latin.Name))))
-    })
-output$namsNumb = renderText({ 
-    paste0(length(plantDisp[which(plantDisp$Ncode %in% unlist(plotInput()$nams)),]$Latin.Name), 
-           " possible plant matches")
-})
 
-output$namsNumb2 = renderText({ 
-  "(the first 1000 matches are available in the drop down menu)"
-})
-
+## the information on second tab
 output$IMG = renderUI({
   if(input$LatinNameMatches != "Select"){
     images <- whichFold[grep(plantDisp[which(plantDisp$Latin.Name == input$LatinNameMatches),1], whichFold)]
