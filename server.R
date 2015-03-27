@@ -6,9 +6,9 @@ shinyServer(function(input, output, session) {
   # input=list(x="Not sure", y="c", z=c("Jan", "May"), searchLN="Not sure")
   plotInput <- reactive({
     validate(
-      need(input$x != "", "Please select a plant type"),
+      #need(input$x != "", "Please select a plant type"),
       #need(input$y != "", "Please select a leaf size"),
-      need(input$z != "", "Please select a the month when the plant flowers")
+      #need(input$z != "", "Please select a ...")
       )
     
     #
@@ -24,7 +24,9 @@ shinyServer(function(input, output, session) {
     } 
     
      if(input$y == "Not sure") { ys <- 1:length(plantInfo$FruitType)  } else { ys <- grep(input$y, plantInfo$FruitType) }
-    if("Not sure" %in% input$z) { zs <-  1:length(plantInfo$FlowerMonths)  } else { 
+    if("Not sure" %in% input$z) { 
+      zs <-  1:length(plantInfo$FlowerMonths)  
+      } else { 
       zs <- grep(paste(c(input$z), collapse="|"), plantInfo$FlowerMonths) 
     }
     
@@ -182,14 +184,6 @@ output$IMG = renderUI({
 
 
 
-# observe({
-# if (input$nextButton){  
-#   namlist <- c("Select", sort(as.character(plantDisp[which(plantDisp$Ncode %in% 
-#                                                  unlist(plotInput()$nams)),]$Latin.Name)))
-#   pos <- which(namlist == input$LatinNameMatches)+1
-# updateSelectInput(session, "LatinNameMatches", choices=namlist,    selected=namlist[6])
-# }
-# })
 
 
   })

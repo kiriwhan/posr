@@ -36,14 +36,13 @@ shinyUI(fluidPage(
                                                                  choices =  c("Not sure", Flower.Color.Generic)))),
                                  column(4, wellPanel( selectInput(inputId = 'z', label = 'Search by Flower Months',
                                                                   choices =  c("Not sure", month.abb), 
-                                                                  multiple=TRUE))),
+                                                                  multiple=FALSE))),
                                  column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center")),
                                  column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center")),
                                  column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center"))
                                  
                                  ),
                         tabPanel(title = "Selected Plant",
-                                 actionButton("nextButton", "Next plant!"),
                                  column(6, h3(uiOutput('Latin.Name')), 
                                         p(uiOutput('ncode')),
                                         p(tags$strong("Family Name:"), uiOutput('family.Name')),
