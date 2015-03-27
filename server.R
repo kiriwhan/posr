@@ -45,6 +45,9 @@ shinyServer(function(input, output, session) {
                                                          unlist(plotInput()$nams)),]$Latin.Name))))
     })
   
+output$namsNumb = renderText({ 
+  paste0("(", length(plantDisp[which(plantDisp$Ncode %in% unlist(plotInput()$nams)),]$Latin.Name), " possible plant matches)")
+})
 
 output$IMG = renderUI({
   if(input$LatinNameMatches != "Select"){

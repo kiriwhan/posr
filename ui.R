@@ -13,6 +13,8 @@ shinyUI(fluidPage(
     p("1) Make selections on the 'Select Plant Features' tab"),
     p("2) Choose from the selection of possible plant matches in the drop down box"),
     uiOutput('nams'),
+    tags$em(uiOutput('namsNumb')),
+    br(), 
     p("3) Click below or on the 'Selected Plant' tab to see the plant"),
     actionButton("goButton", "Click to see plant"),
     p("4) Scroll down for more information"),
