@@ -3,7 +3,7 @@ source("global.R")
 
 shinyServer(function(input, output, session) {
   # input=list(x="orchid or epiphyte", y="Not sure", z="Not sure", searchLN="NA")
-  # input=list(x="Not sure", y="c", z="Not sure", searchLN="NA")
+  # input=list(x="Not sure", y="c", z=c("Jan", "May"), searchLN="Not sure")
   plotInput <- reactive({
     validate(
       need(input$x != "", "Please select a plant type"),
@@ -24,7 +24,9 @@ shinyServer(function(input, output, session) {
     } 
     
      if(input$y == "Not sure") { ys <- 1:length(plantInfo$FruitType)  } else { ys <- grep(input$y, plantInfo$FruitType) }
-    if(input$z == "Not sure") { zs <-  1:length(plantInfo$FlowerMonths)  } else { zs <- grep(input$z, plantInfo$FlowerMonths) }
+    if("Not sure" %in% input$z) { zs <-  1:length(plantInfo$FlowerMonths)  } else { 
+      zs <- grep(paste(c(input$z), collapse="|"), plantInfo$FlowerMonths) 
+    }
     
     if(input$searchLN == "NA") {  
       LNs <-  1:length(plantInfo$PlantType) 
@@ -39,14 +41,29 @@ shinyServer(function(input, output, session) {
     })
   
   
+## swapping tabs
+observe({
+  if (input$goButton){    
+    if (input$LatinNameMatches == "Select"){  
+      updateTabsetPanel(session, inputId="conditionedPanels", selected="Select Plant Features")
+    }      
+    else if (input$LatinNameMatches != "Select") {    
+      updateTabsetPanel(session, inputId="conditionedPanels", selected="Selected Plant")
+    }
+  } 
+})
   
   output$nams = renderUI({
-    selectInput('LatinNameMatches', "Your matches:",  c("Select", sort(as.character(plantDisp[which(plantDisp$Ncode %in% 
+    selectInput('LatinNameMatches', "Your matches:",  choices=c("Select", sort(as.character(plantDisp[which(plantDisp$Ncode %in% 
                                                          unlist(plotInput()$nams)),]$Latin.Name))))
     })
-  
 output$namsNumb = renderText({ 
-  paste0("(", length(plantDisp[which(plantDisp$Ncode %in% unlist(plotInput()$nams)),]$Latin.Name), " possible plant matches)")
+    paste0(length(plantDisp[which(plantDisp$Ncode %in% unlist(plotInput()$nams)),]$Latin.Name), 
+           " possible plant matches")
+})
+
+output$namsNumb2 = renderText({ 
+  "(the first 1000 matches are available in the drop down menu)"
 })
 
 output$IMG = renderUI({
@@ -163,17 +180,18 @@ output$IMG = renderUI({
   }
   }) 
 
-  ## swapping tabs
-  observe({
-    if (input$goButton){    
-      if (input$LatinNameMatches == "Select"){  
-        updateTabsetPanel(session, inputId="conditionedPanels", selected="Select Plant Features")
-      }      
-      else if (input$LatinNameMatches != "Select") {    
-        updateTabsetPanel(session, inputId="conditionedPanels", selected="Selected Plant")
-      }
-    } 
-    })
+
+
+# observe({
+# if (input$nextButton){  
+#   namlist <- c("Select", sort(as.character(plantDisp[which(plantDisp$Ncode %in% 
+#                                                  unlist(plotInput()$nams)),]$Latin.Name)))
+#   pos <- which(namlist == input$LatinNameMatches)+1
+# updateSelectInput(session, "LatinNameMatches", choices=namlist,    selected=namlist[6])
+# }
+# })
+
+
   })
 
 
