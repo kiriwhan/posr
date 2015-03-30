@@ -30,11 +30,11 @@ shinyServer(function(input, output, session) {
       zs <- grep(paste(c(input$z), collapse="|"), plantInfo$FlowerMonths) 
     }
     
-    if(input$searchLN == "NA") {  
+    if(input$searchLN == "N/A") {  
       LNs <-  1:length(plantInfo$PlantType) 
     } else { LNs <- grep(input$searchLN, plantDisp$Latin.Name, ignore.case=TRUE)}
 
-    if(input$searchCN == "NA") {  
+    if(input$searchCN == "N/A") {  
       CNs <-  1:length(plantInfo$PlantType) 
     } else { CNs <- grep(input$searchCN, plantDisp$Common.Name, ignore.case=TRUE)}
      

@@ -11,7 +11,7 @@ shinyUI(fluidPage(
     br(),  br(), 
     p(tags$strong("Instructions")),
     p("1) Make selections on the 'Select Plant Features' tab"),
-    p("2) Choose from the selection of possible plant matches in the drop down box"),
+    p("2) Choose from the selection of possible plant matches in the drop-down box"),
     uiOutput('nams'),
     tags$em(uiOutput('namsNumb')),
     tags$em(uiOutput('namsNumb2')),
@@ -28,18 +28,19 @@ shinyUI(fluidPage(
   
   mainPanel(tabsetPanel(id = "conditionedPanels",
                         tabPanel(title = "Select Plant Features",
-                                 column(12, wellPanel( textInput(inputId = 'searchLN', label = 'Search by Latin Name', "NA"))),
-                                 column(12, wellPanel( textInput(inputId = 'searchCN', label = 'Search by Common Name', "NA"))),
-                                 column(4, wellPanel(selectInput(inputId = 'x', label = 'Search by Plant Type', selected="tree",
+                                 column(12, wellPanel( textInput(inputId = 'searchLN', label = 'Search by Latin Name', "N/A"))),
+                                 column(12, wellPanel( textInput(inputId = 'searchCN', label = 'Search by Common Name', "N/A"))),
+                                 column(12, p(tags$strong("Search by category:"))),
+                                 column(4, wellPanel(selectInput(inputId = 'x', label = 'PLANT TYPE', selected="tree",
                                                                  choices = c("Not sure", as.character(Plant.Type.Generic))))),
-                                 column(4, wellPanel(selectInput(inputId = 'y', label = 'Search by Flower Colour', 
-                                                                 choices =  c("Not sure", Flower.Color.Generic)))),
-                                 column(4, wellPanel( selectInput(inputId = 'z', label = 'Search by Flower Months',
+                                 column(4, wellPanel(selectInput(inputId = 'y', label = 'FLOWER COLOUR', 
+                                                                 choices =  c("Not sure", sort(Flower.Color.Generic))))),
+                                 column(4, wellPanel( selectInput(inputId = 'z', label = 'FLOWERING MONTHS',
                                                                   choices =  c("Not sure", month.abb), 
                                                                   multiple=FALSE))),
-                                 column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center")),
-                                 column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center")),
-                                 column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center"))
+                                 #column(4, img(src = "vegTypes2.png",  height = 200, width = 200, align="center")),
+                                 column(12, img(src = "introPict.jpg",  height = 200, width = 600, align="center"))
+                                 #column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center"))
                                  
                                  ),
                         tabPanel(title = "Selected Plant",
@@ -62,12 +63,14 @@ shinyUI(fluidPage(
                                  column(8, 
                                   p(tags$em("This website is to be considered as a guide only. It has been created to help Landcarers, 
                                              gardeners and south-coast region plant enthusiasts in the field.")),
-                                  br(), 
+                                  tags$ul(tags$li(tags$strong("2500+"), "plants for the Shoalhaven Region"),
+                                          tags$li("Hand-drawn pictures"),
+                                          tags$li("Detailed information")),
                                  p(tags$strong("Plants of the Shoalhaven Region Database")), 
                                 p("The website is a lite version of the Plants of the Shoalhaven Region database. 
                                    The full database was developed by Carolyn and Malcolm Whan of presOz Computer Services. 
                                    Development of the database was motivated by a lack of easily accessible and clear information 
-                                   for plant identification in the south-coast region. The database combines 15-years of botanical
+                                   for plant identification in the south-coast region. The database combines 15+ years of botanical
                                    research, art, photography and computing. ")),
                                 
                                  column(4, img(src = "shoalhavenMap2.jpeg",  height = 250, width = 200)),
@@ -76,7 +79,7 @@ shinyUI(fluidPage(
                                              posr@presoz.com.au")),
                                 column(12, p(tags$strong("About the authors"))), 
                                 column(12, p("Carolyn (Masters of Curriculum Studies) had over 30 years experience creating and
-                                              teaching art. Together, Carolyn and Malcolm have been involved with environmental
+                                              teaching art. All pictures were hand drawn by Carolyn. Together, Carolyn and Malcolm have been involved with environmental
                                               education since 1991 when they completed the educational series 'DuneCare'. 
                                               They started Milton Rural Landcare Inc. in 1998.")),
                                 column(12, p("Website design by Kirien Whan (www.kiriwhan.com), powered by RStudio and shiny in the R Statistical 
