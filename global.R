@@ -1,5 +1,6 @@
 # to deploy the app:
 # shinyapps::deployApp('/Users/kiriwhan/shiny/posr')
+# shiny::runGitHub("posr", "kiriwhan")
 
 library(shiny)
 library(ggplot2)
@@ -20,7 +21,10 @@ Flower.Season.Generic <-  c( "a", "A", "E", "W", "g", "G", "s", "S")
 Fruit.Type.Generic <- c("b", "c", "d", "e", "f", "g", "h", "i", "j", "m", "n", "o", "p",
                         "q", "s", "t", "u", "v", "w", "x", "y", "z")
 
+Habitat.Code <- c("f", "g", "h", "d", "r", "c", "cf", "sm")
+
 Flower.Color.Generic <-  c("Brown", "Green", "Blue", "Purple", "Pink", "Red", "Orange", "Yellow", "Cream", "White", "Black")
+
 ## vector of which plants are in which folder
 # whichFold <- apply(as.matrix(plantDisp$Ncode), 1, function(a) {
 #     tmp <- apply(as.matrix(1:5), 1, function(a2) list.files(paste("../plantDatabaseV1/snpres/tcmimages", a2, sep=""), 

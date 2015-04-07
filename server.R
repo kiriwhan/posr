@@ -3,7 +3,7 @@ source("global.R")
 
 shinyServer(function(input, output, session) {
   # input=list(x="orchid or epiphyte", y="Not sure", z="Not sure", searchLN="NA")
-  # input=list(x="Not sure", y="c", z=c("Jan", "May"), searchLN="Not sure")
+  # input=list(x="tree", y="Not sure", z="Not sure", w="Not sure", searchLN="N/A", searchCN="N/A")
   plotInput <- reactive({
     validate(
       #need(input$x != "", "Please select a plant type"),
@@ -11,7 +11,7 @@ shinyServer(function(input, output, session) {
       #need(input$z != "", "Please select a ...")
       )
     
-    #
+    # PLANT TYPE
     if(input$x == "Not sure") {  
       xs <-  1:length(plantInfo$PlantType)
       } else if(input$x %in% c("aquatic", "climber", "fern", "grass", "herb")) { 
@@ -20,16 +20,38 @@ shinyServer(function(input, output, session) {
       xs <- which(substr(plantInfo$Ncode, 2, 2) %in% c(substr(input$x, 1, 1), "b"))
     } else if(input$x %in% c("orchid or epiphyte")){
        xs <- which(substr(plantInfo$Ncode, 2, 2) %in% c("e"))
-#       match("e", substr(plantInfo$Ncode, 2, 2))
     } 
     
-     if(input$y == "Not sure") { ys <- 1:length(plantInfo$FruitType)  } else { ys <- grep(input$y, plantInfo$FruitType) }
+    # FLOWER COLOUR
+     if(input$y == "Not sure") { 
+       ys <- 1:length(plantInfo$FruitType)  
+     } else if (input$y %in% c("Red", "Green", "Blue", "Pink", "Orange", "Yellow", "White")){ 
+       ys <- grep(tolower(substr(input$y, 1, 1)), plantDisp$Flower.colour) 
+     } else if (input$y == "Brown"){ 
+       ys <- grep("n", plantDisp$Flower.colour) 
+     } else if (input$y == "Purple"){ 
+       ys <- grep("v", plantDisp$Flower.colour) 
+     } else if (input$y == "Cream"){ 
+       ys <- grep("z", plantDisp$Flower.colour) 
+     } else if (input$y == "Black"){ 
+       ys <- grep("k", plantDisp$Flower.colour) 
+     }
+
+    # FLOWER MONTHS
+    if(input$w == 1) { 
+      ws <-  1:dim(plantDisp)[1]
+      } else { 
+      ws <- grep(paste(c(input$w), collapse="|"), plantDisp$Habitat) 
+    }
+    
+    # HABITAT
     if("Not sure" %in% input$z) { 
       zs <-  1:length(plantInfo$FlowerMonths)  
-      } else { 
+    } else { 
       zs <- grep(paste(c(input$z), collapse="|"), plantInfo$FlowerMonths) 
     }
     
+    # SEACH NAMES
     if(input$searchLN == "N/A") {  
       LNs <-  1:length(plantInfo$PlantType) 
     } else { LNs <- grep(input$searchLN, plantDisp$Latin.Name, ignore.case=TRUE)}
@@ -38,7 +60,7 @@ shinyServer(function(input, output, session) {
       CNs <-  1:length(plantInfo$PlantType) 
     } else { CNs <- grep(input$searchCN, plantDisp$Common.Name, ignore.case=TRUE)}
      
-    fnames <- plantDisp[intersect(intersect(intersect(intersect(xs, ys), zs), LNs), CNs), ]$Ncode #
+    fnames <- plantDisp[intersect(intersect(intersect(intersect(intersect(xs, ys), zs), LNs), CNs), ws), ]$Ncode #
     return(list(plotlength=length(fnames), nams=fnames))
     })
   

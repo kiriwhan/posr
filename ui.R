@@ -21,28 +21,28 @@ shinyUI(fluidPage(
     p("3) Click below or on the 'Selected Plant' tab to see the plant"),
     actionButton("goButton", "Click to see plant"),
     p("4) Scroll down for more information"),
-    br(), br(), br(), 
-    img(src = "presozLogo.png",  height = 50, width = 150)
+    img(src = "presozLogo.png",  height = 100, width = 200)
     
     ),
   
   mainPanel(tabsetPanel(id = "conditionedPanels",
                         tabPanel(title = "Select Plant Features",
-                                 column(12, wellPanel( textInput(inputId = 'searchLN', label = 'Search by Latin Name', "N/A"))),
-                                 column(12, wellPanel( textInput(inputId = 'searchCN', label = 'Search by Common Name', "N/A"))),
-                                 column(12, p(tags$strong("Search by category:"))),
+                                 column(6, wellPanel( textInput(inputId = 'searchLN', label = 'Search by Latin Name', "N/A"))),
+                                 column(6, wellPanel( textInput(inputId = 'searchCN', label = 'Search by Common Name', "N/A"))),
+                                 column(12, p(tags$strong("Search by category:"))), 
                                  column(4, wellPanel(selectInput(inputId = 'x', label = 'PLANT TYPE', selected="tree",
                                                                  choices = c("Not sure", as.character(Plant.Type.Generic))))),
                                  column(4, wellPanel(selectInput(inputId = 'y', label = 'FLOWER COLOUR', 
-                                                                 choices =  c("Not sure", sort(Flower.Color.Generic))))),
-                                 column(4, wellPanel( selectInput(inputId = 'z', label = 'FLOWERING MONTHS',
-                                                                  choices =  c("Not sure", month.abb), 
-                                                                  multiple=FALSE))),
-                                 #column(4, img(src = "vegTypes2.png",  height = 200, width = 200, align="center")),
-                                 column(12, img(src = "introPict.jpg",  height = 200, width = 600, align="center"))
-                                 #column(4, img(src = "introPict.jpg",  height = 200, width = 200, align="center"))
-                                 
-                                 ),
+                                                                 choices =  c("Not sure", Flower.Color.Generic)))),
+                                 column(4, wellPanel( selectInput(inputId = 'z', label = 'FLOWER MONTHS',
+                                                                  choices =  c("Not sure", month.abb)))),
+                                 column(6, wellPanel(radioButtons(inputId = "w", label="HABITAT", 
+                                                                  choices=c("Not sure"=1, "Open Forest"=2, "Gardens"=3, 
+                                                                            "Heath"=4,"Dunes"=5, "Rainforest"=6, 
+                                                                            "Creek Banks"=7, "Coastal Forest"=8, 
+                                                                            "Saltmarsh Mangroves"=9),  selected=1))),
+                                 column(6, img(src = "habitattypes.jpg",  height = 300, width = 300, align="center"))                              
+                        ),
                         tabPanel(title = "Selected Plant",
                                  column(6, h3(uiOutput('Latin.Name')), 
                                         p(uiOutput('ncode')),
@@ -73,7 +73,8 @@ shinyUI(fluidPage(
                                    for plant identification in the south-coast region. The database combines 15+ years of botanical
                                    research, art, photography and computing. ")),
                                 
-                                 column(4, img(src = "shoalhavenMap2.jpeg",  height = 250, width = 200)),
+                                 column(4, tags$em(tags$figcaption(img(src = "map.png",  height = 250, width = 200)),
+                                        "The Shoalhaven Region is marked in blue")),
                                 column(12, p("The full POSR database contains many more search features and additional information
                                              about many plant species. To purchase or access this database contact: 
                                              posr@presoz.com.au")),
