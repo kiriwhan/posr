@@ -3,7 +3,6 @@
 # shiny::runGitHub("posr", "kiriwhan")
 
 library(shiny)
-library(ggplot2)
 
 # plantDisp <- read.csv("../plantDatabaseV1/posrexel_V2.csv", sep=",", header=TRUE, fill=TRUE, stringsAsFactors=FALSE, strip.white=TRUE)
 # save(plantDisp, file="posr_databaseInfo.RData")
@@ -21,7 +20,10 @@ Flower.Season.Generic <-  c( "a", "A", "E", "W", "g", "G", "s", "S")
 Fruit.Type.Generic <- c("b", "c", "d", "e", "f", "g", "h", "i", "j", "m", "n", "o", "p",
                         "q", "s", "t", "u", "v", "w", "x", "y", "z")
 
-Habitat.Code <- c("f", "g", "h", "d", "r", "c", "cf", "sm")
+Habitat.Names.Generic <-c("Not sure", "Open Forest", "Gardens", 
+                         "Heath","Dunes", "Rainforest", 
+                         "Creek Banks", "Coastal Forest", 
+                         "Saltmarsh Mangroves")
 
 Flower.Color.Generic <-  c("Brown", "Green", "Blue", "Purple", "Pink", "Red", "Orange", "Yellow", "Cream", "White", "Black")
 

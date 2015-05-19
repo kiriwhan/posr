@@ -3,13 +3,13 @@ source("global.R")
 
 shinyServer(function(input, output, session) {
   # input=list(x="orchid or epiphyte", y="Not sure", z="Not sure", searchLN="NA")
-  # input=list(x="tree", y="Not sure", z="Not sure", w="Not sure", searchLN="N/A", searchCN="N/A")
+  # input=list(x="tree", y="Not sure", z="Not sure", w="9", searchLN="N/A", searchCN="N/A")
   plotInput <- reactive({
-    validate(
-      #need(input$x != "", "Please select a plant type"),
-      #need(input$y != "", "Please select a leaf size"),
-      #need(input$z != "", "Please select a ...")
-      )
+#     validate(
+#       #need(input$x != "", "Please select a plant type"),
+#       #need(input$y != "", "Please select a leaf size"),
+#       #need(input$z != "", "Please select a ...")
+#       )
     
     # PLANT TYPE
     if(input$x == "Not sure") {  
@@ -37,14 +37,14 @@ shinyServer(function(input, output, session) {
        ys <- grep("k", plantDisp$Flower.colour) 
      }
 
-    # FLOWER MONTHS
+    # HABITAT
     if(input$w == 1) { 
       ws <-  1:dim(plantDisp)[1]
       } else { 
-      ws <- grep(paste(c(input$w), collapse="|"), plantDisp$Habitat) 
+      ws <- grep(paste(c(strsplit(Habitat.Names.Generic[as.numeric(input$w)], " ")[[1]]), collapse="|"), plantDisp$Habitat, ignore.case = TRUE) 
     }
     
-    # HABITAT
+    # FLOWER MONTHS
     if("Not sure" %in% input$z) { 
       zs <-  1:length(plantInfo$FlowerMonths)  
     } else { 
@@ -54,13 +54,17 @@ shinyServer(function(input, output, session) {
     # SEACH NAMES
     if(input$searchLN == "N/A") {  
       LNs <-  1:length(plantInfo$PlantType) 
-    } else { LNs <- grep(input$searchLN, plantDisp$Latin.Name, ignore.case=TRUE)}
+    } else { 
+      LNs <- grep(input$searchLN, plantDisp$Latin.Name, ignore.case=TRUE)
+    }
 
     if(input$searchCN == "N/A") {  
       CNs <-  1:length(plantInfo$PlantType) 
-    } else { CNs <- grep(input$searchCN, plantDisp$Common.Name, ignore.case=TRUE)}
+    } else { 
+      CNs <- grep(input$searchCN, plantDisp$Common.Name, ignore.case=TRUE)
+    }
      
-    fnames <- plantDisp[intersect(intersect(intersect(intersect(intersect(xs, ys), zs), LNs), CNs), ws), ]$Ncode #
+    fnames <- plantDisp[Reduce(intersect, list(xs, ys, ws, LNs, CNs)), ]$Ncode
     return(list(plotlength=length(fnames), nams=fnames))
     })
   
@@ -79,7 +83,6 @@ output$namsNumb = renderText({
 output$namsNumb2 = renderText({ 
   "(the first 1000 matches are available in the drop down menu)"
 })
-
 
 ## swapping tabs
 observe({
